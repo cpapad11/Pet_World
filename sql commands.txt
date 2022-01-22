@@ -1,0 +1,87 @@
+
+CREATE DATABASE PetWorld;
+USE PetWorld;
+
+CREATE TABLE Suplier(
+	sName VARCHAR(50) PRIMARY KEY,
+    phoneNumber VARCHAR(50) NOT NULL
+);
+
+select * from Suplier;
+drop table Suplier;
+  
+CREATE TABLE Product(
+	pID Integer PRIMARY KEY,
+    Name1 VARCHAR(50) NOT NULL,
+    Price INTEGER NOT NULL,
+    Quantity INTEGER NOT NULL,
+    sName VARCHAR(50) REFERENCES Suplier(sName),
+    phoneNumber VARCHAR(50) REFERENCES Suplier(phoneNumber)
+);
+
+SELECT c.Name1 FROM Customer AS c 
+INNER JOIN Pet AS p 
+ON c.cID = p.cID 
+GROUP BY c.Name1
+HAVING COUNT(*) > 1;
+
+
+SELECT Max(c.Name1)
+FROM Orderplaced AS ord
+INNER JOIN Customer AS c
+ON c.cID = ord.cID;
+
+drop table product;
+select * from Product;
+ 
+CREATE TABLE Customer(
+	cID INTEGER PRIMARY KEY,
+    Name1 VARCHAR(50) NOT NULL,
+    Address VARCHAR(50) NOT NULL,
+    Phone VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    age INTEGER NOT NULL 
+);
+
+drop table customer;
+ select * from customer;
+
+CREATE TABLE OrderPlaced(
+	Date1 VARCHAR(20),
+    Quantity INTEGER NOT NULL,
+    Price INTEGER NOT NULL,
+    pID INTEGER REFERENCES Product(pID),
+    cID INTEGER REFERENCES Customer(cID)
+);
+
+select * from OrderPlaced;
+drop table OrderPlaced;
+
+CREATE TABLE Wishlist(
+	pID INTEGER REFERENCES Product(pID),
+    cID INTEGER REFERENCES Customer(cID)
+);
+
+drop table Wishlist;
+select * from Wishlist;
+
+CREATE TABLE Pet(
+	PetID INTEGER PRIMARY KEY,
+    Name1 VARCHAR(50) NOT NULL,
+    Age INTEGER NOT NULL,
+    Type1 VARCHAR(50) NOT NULL,
+    cID INTEGER REFERENCES Customer(cID)
+ );
+
+drop table Pet;
+select * from Pet;
+
+
+SELECT COUNT(price), price 
+FROM Orderplaced WHERE price < 50 
+GROUP BY price ORDER BY price ;
+
+SELECT * FROM Orderplaced
+where price = (select Max(price) from Orderplaced);
+
+select max(price) from Orderplaced;
